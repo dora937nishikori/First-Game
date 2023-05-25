@@ -1,4 +1,4 @@
-# First-Game
+# First-Game(自作ゲーム)
 実行ファイル -> FIRSTGAME.zip
 
 C#のソースコード -> Scripts
