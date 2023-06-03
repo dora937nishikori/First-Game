@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//サウンド設定
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;

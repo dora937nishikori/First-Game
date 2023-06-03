@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //StageUIを管理(ステージ数、進行ボタン、戻るボタン)
-
 public class StageUIManager : MonoBehaviour
 {
-
     private void Start()
     {
         stageClearImage.SetActive(false);
@@ -26,6 +24,7 @@ public class StageUIManager : MonoBehaviour
         toTitleButton.SetActive(false);
     }
 
+    //敵に遭遇時ボタンを隠す
     public void HideButtons()
     {
         nextButton.SetActive(false);
@@ -40,6 +39,7 @@ public class StageUIManager : MonoBehaviour
         toTownButton.SetActive(true);
     }
 
+    //クリア時処理
     public void ShowClearText()
     {
         stageClearImage.SetActive(true);

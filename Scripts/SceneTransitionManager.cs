@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//シーン切り替え
 public class SceneTransitionManager : MonoBehaviour
 {
     public void LoadTo(string sceneName)
@@ -16,6 +17,7 @@ public class SceneTransitionManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    //不具合のため追加
     public void TitleToExplanation()
     {
         SceneManager.LoadScene("Explanation");

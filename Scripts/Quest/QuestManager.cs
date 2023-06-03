@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Random = System.Random;
 using UnityEngine;
 using DG.Tweening;
+
 //クエスト全体を管理
 public class QuestManager : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class QuestManager : MonoBehaviour
     
 
     int[] encountTable = new int[30];//敵に遭遇するテーブル:最大30ステージ
-    public int currentStage = 0;//現在のステージ
+    public int currentStage = 0;
 
     public void Start()
     {
@@ -37,7 +38,7 @@ public class QuestManager : MonoBehaviour
 
         stageUI.UpdateUI(currentStage);
         DialogTextManager.instance.SetScenarios(new string[]{"森についた"});
-        player.SetupAtk();
+        player.updateATK();
         rankingScore.SetupScore();//score保持
         defeatCount = 0;//街に戻ると連続撃破数はリセット
     }
@@ -50,14 +51,12 @@ public class QuestManager : MonoBehaviour
         //フェードアウト
         SpriteRenderer questBGSR = questBG.GetComponent<SpriteRenderer>();
         questBGSR.DOFade(0,2f).OnComplete(()=> questBGSR.DOFade(1,0));
-        //2秒遅延
         yield return new WaitForSeconds(2f);
 
         currentStage++;
-
-        //進行度をUIに反映
         stageUI.UpdateUI(currentStage);
         
+        //探索時処理(クリア，敵，ボス，探索)
         if(encountTable.Length <= currentStage)
         {
             QuestClear();
@@ -75,21 +74,24 @@ public class QuestManager : MonoBehaviour
             stageUI.ShowButtons();
         }
     }
-    //NextButtonを押したときに起こる関数
+    //探索ボタン処理
     public void OnNextButton()
     {
         SoundManager.instance.PlaySE(0);
         stageUI.HideButtons();
         StartCoroutine(Searching());
     }
+
+    //街に戻るボタン処理
     public void OnToTownButton()
     {
         //街に戻る回数を記録
         score += 1;
-        rankingScore.SetupScore();//score保持
+        rankingScore.SetupScore();
         SoundManager.instance.PlaySE(0);
     }
 
+    //敵との遭遇処理
     void EncountEnemy()
     {
         DialogTextManager.instance.SetScenarios(new string[]{"モンスターに遭遇した！"});
@@ -112,6 +114,7 @@ public class QuestManager : MonoBehaviour
         battleManager.Setup(enemy);
     }
 
+    //ボス遭遇処理
     void EncountBoss()
     {
         DialogTextManager.instance.SetScenarios(new string[]{"ボスモンスターが現れた！"});
@@ -139,7 +142,7 @@ public class QuestManager : MonoBehaviour
         }
         stageUI.ShowButtons();
     }
-
+    //クリア処理
     void QuestClear()
     {
         DialogTextManager.instance.SetScenarios(new string[]{"ステージ30到達！\nGAME CLEAR！！"});
@@ -147,12 +150,12 @@ public class QuestManager : MonoBehaviour
         SoundManager.instance.PlaySE(2);
         //ランキング登録
         naichilab.RankingLoader.Instance.SendScoreAndShowRanking (score);
-        //クリア画面の表示
         stageUI.ShowClearText();
         playerAtk = 10;//ゲームクリアで攻撃力リセット
         score = 0;
     }
 
+    //GAMEOVER処理，自動でタイトル画面へ
     public IEnumerator PlayerDead()
     {
         playerAtk = 10;//GAME OVERで攻撃力リセット

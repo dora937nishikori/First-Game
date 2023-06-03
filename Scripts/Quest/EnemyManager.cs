@@ -9,8 +9,8 @@ using DG.Tweening;
 public class EnemyManager : MonoBehaviour
 {
 
-    public int hp;//初期値30
-    public int atk;//初期値5
+    public int hp;
+    public int atk;
     public new string name;
     public GameObject hitEffect;
     public QuestManager questManager;
@@ -28,7 +28,7 @@ public class EnemyManager : MonoBehaviour
         atk += atk_rnd;
     }
     
-    //攻撃する
+    //攻撃
     public int Attack(PlayerManager player)
     {
         int damage = player.Damage(atk);

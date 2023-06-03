@@ -21,23 +21,25 @@ public class BattleManager : MonoBehaviour
         playerUI.SetupUI(player);
     }
 
+    //通常の敵セットアップ
     public void Setup(EnemyManager enemyManager)
     {
         canAttack = true;
         SoundManager.instance.PlayBGM("Battle");
         enemyUI.gameObject.SetActive(true);
         enemy = enemyManager;
-        enemy.SetUpEnemy();//敵のHPとATKを決定
-        enemy.atk += questManager.currentStage;//ステージを進むにつれて敵を強くする
+        enemy.SetUpEnemy();
+        //敵のステータスをステージによって変更
+        enemy.atk += questManager.currentStage;
         enemy.hp += questManager.currentStage;
         enemyUI.SetupUI(enemy);
         enemy.AddEvenListenerOnTap(PlayerAttack);
     }
 
-    //ボス戦
+    //ボス戦セットアップ
     public void SetupBoss(EnemyManager enemyManager)
     {
-        Debug.Log("setupBoss");
+        //Debug.Log("setupBoss");
         canAttack = true;
         SoundManager.instance.PlayBGM("Boss");
         enemyUI.gameObject.SetActive(true);
@@ -49,6 +51,7 @@ public class BattleManager : MonoBehaviour
 
     void PlayerAttack()
     {
+        //連打で攻撃できてしまうことを防ぐ処理
         if (canAttack == false)
         {
             return;
@@ -97,8 +100,9 @@ public class BattleManager : MonoBehaviour
         Destroy(enemy.gameObject);
         SoundManager.instance.PlayBGM("Quest");
         questManager.EndBattle();
-        QuestManager.playerAtk += 2;//敵を倒すごとに攻撃力+2
-        player.updateATK();//プレイヤーの攻撃力を更新
-        playerUI.UpdateUI(player);//ATKのUI更新
+        //敵を倒したときにプレイヤーの攻撃力アップ
+        QuestManager.playerAtk += 2;
+        player.updateATK();
+        playerUI.UpdateUI(player);
     }
 }

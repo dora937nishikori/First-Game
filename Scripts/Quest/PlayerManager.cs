@@ -8,17 +8,12 @@ public class PlayerManager : MonoBehaviour
     public int atk;
 
     //街に戻ってもATKを保持
-    public void SetupAtk()
-    {
-        atk = QuestManager.playerAtk;
-    }
-
     public void updateATK()
     {
         atk = QuestManager.playerAtk;
     }
 
-    //攻撃関数
+    //攻撃
     public int Attack(EnemyManager enemy)
     {
         int damage = enemy.Damage(atk);
