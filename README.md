@@ -1,5 +1,5 @@
 # First-Game(自作ゲーム)
-実行ファイル -> FIRSTGAME.zip
+実行ファイル -> FIRSTGAME.zip -- FirstGame_r.exe
 
 C#のソースコード -> Scripts
 
